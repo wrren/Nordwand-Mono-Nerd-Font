@@ -28,7 +28,7 @@ $(PATCHER_DIR)/font-patcher:
 build-nerd: build-otf $(PATCHER_DIR)/font-patcher
 	mkdir -p fonts/nerd
 	ls fonts/otf/*.otf | xargs -P 4 -I{} \
-		fontforge -script $(PATCHER_DIR)/font-patcher --complete --mono --quiet -out fonts/nerd {}
+		env -u LD_LIBRARY_PATH fontforge -script $(PATCHER_DIR)/font-patcher --complete --mono --quiet -out fonts/nerd {}
 
 install-mac:
 	cp -r fonts/otf/NordwandMono-*.otf ~/Library/Fonts
