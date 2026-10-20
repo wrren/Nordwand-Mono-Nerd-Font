@@ -31,7 +31,7 @@ $(PATCHER_DIR)/font-patcher:
 build-nerd: build-otf $(PATCHER_DIR)/font-patcher
 	rm -rf fonts/nerd && mkdir -p fonts/nerd
 	ls fonts/otf/*.otf | xargs -P 4 -I{} \
-		env -u LD_LIBRARY_PATH fontforge -script $(PATCHER_DIR)/font-patcher $(NERD_GLYPH_SETS) --mono --quiet -out fonts/nerd {}
+		env -u LD_LIBRARY_PATH fontforge -script $(PATCHER_DIR)/font-patcher $(NERD_GLYPH_SETS) --single-width-glyphs --quiet -out fonts/nerd {}
 	uv run python -m scripts.clean_nerd_names fonts/nerd
 
 install-mac:

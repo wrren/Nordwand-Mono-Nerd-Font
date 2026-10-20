@@ -6,6 +6,12 @@ set to the names (e.g. "Nerd Font Mono Plus Font Awesome Plus Octicons" and
 "NordwandMonoNFMAOPSCPL"). This rewrites the names to plain
 "NordwandMono Nerd Font" (dropping the redundant "Mono" variant suffix) and
 renames the files to match.
+
+It also restores the fixed-pitch flags: patching with --single-width-glyphs
+(rather than --mono, which would squash the double-width arrow ligatures and
+zero-width combining marks to a single cell) leaves the font with mixed
+advance widths, so font-patcher clears isFixedPitch. Nordwand Mono sets it
+despite those few glyphs, and terminals rely on it to list the font.
 """
 
 import argparse
@@ -39,12 +45,15 @@ def clean_font(path):
         if cleaned != value:
             record.string = cleaned
 
+    font["post"].isFixedPitch = 1
+
     if "CFF " in font:
         cff = font["CFF "].cff
         cff.fontNames = [clean_ps_name(name) for name in cff.fontNames]
         top = cff.topDictIndex[0]
         top.FamilyName = name_table.getDebugName(16) or name_table.getDebugName(1)
         top.FullName = name_table.getDebugName(4)
+        top.isFixedPitch = 1
 
     ps_name = name_table.getDebugName(6)
     family, _, style = ps_name.partition("-")
