@@ -35,7 +35,7 @@ feature to turn them on (see the [stylistic sets document](doc/stylistic_sets.md
 
 ## Nerd Font
 
-Each release includes `NordwandMono-NerdFont.zip`, containing every weight patched with a subset of the Nerd Fonts glyphs: Powerline (+ extra), Font Awesome, Font Logos, Octicons, Codicons, Pomicons, Power Symbols, Seti-UI and Devicons. Material Design, Weather and Font Awesome Extension icons are left out to keep the font small; edit `NERD_GLYPH_SETS` in the `makefile` to change the selection. The family is named **NordwandMono Nerd Font**, and icons are constrained to a single cell so the terminal grid stays intact.
+Each release includes `NordwandMono-NerdFont.zip`, containing every weight patched with a subset of the Nerd Fonts glyphs: Powerline (+ extra), Font Awesome (+ Extension), Material Design, Font Logos, Octicons, Codicons, Pomicons, Power Symbols, Seti-UI and Devicons. Font Awesome Extension includes the Java (``) and Python (``) symbols used by Starship, while Material Design supplies symbols for Rust, R, Odin, Mojo and other prompt modules. Weather icons are left out; edit `NERD_GLYPH_SETS` in the `makefile` to change the selection. The family is named **NordwandMono Nerd Font**, and icons are constrained to a single cell so the terminal grid stays intact.
 
 To build it locally (requires [FontForge](https://fontforge.org), e.g. `brew install fontforge`):
 

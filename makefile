@@ -19,8 +19,8 @@ build-otf:
 NERD_FONTS_VERSION := 3.5.1
 PATCHER_DIR := ext-fonts/nerd-fonts-patcher-$(NERD_FONTS_VERSION)
 # Seti-UI and Devicons are always included by the patcher.
-NERD_GLYPH_SETS := --powerline --powerlineextra --fontawesome --fontlogos \
-	--octicons --codicons --pomicons --powersymbols
+NERD_GLYPH_SETS := --powerline --powerlineextra --fontawesome --fontawesomeext \
+	--material --fontlogos --octicons --codicons --pomicons --powersymbols
 
 $(PATCHER_DIR)/font-patcher:
 	mkdir -p $(PATCHER_DIR)
@@ -33,6 +33,7 @@ build-nerd: build-otf $(PATCHER_DIR)/font-patcher
 	ls fonts/otf/*.otf | xargs -P 4 -I{} \
 		env -u LD_LIBRARY_PATH fontforge -script $(PATCHER_DIR)/font-patcher $(NERD_GLYPH_SETS) --single-width-glyphs --quiet -out fonts/nerd {}
 	uv run python -m scripts.clean_nerd_names fonts/nerd
+	uv run python -m scripts.check_nerd_icons fonts/nerd
 
 install-mac:
 	cp -r fonts/otf/NordwandMono-*.otf ~/Library/Fonts
