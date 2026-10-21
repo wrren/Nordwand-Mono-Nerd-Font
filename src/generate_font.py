@@ -543,7 +543,7 @@ def _style_metadata(weight, italic):
         style_name = f"{weight_name} Italic" if italic else weight_name
 
     ps_style_name = style_name.replace(" ", "")
-    ps_name = f"{fc.family_name}-{ps_style_name}"
+    ps_name = f"{fc.family_name.replace(' ', '')}-{ps_style_name}"
     full_name = f"{fc.family_name} {style_name}"
 
     # RIBBI = Regular/Bold/Italic/BoldItalic — macOS style-links these under one family.
@@ -750,7 +750,7 @@ def _build_otf(
     ]
 
     fb.setupCFF(
-        psName=f"{fc.family_name}-{ps_style_name}",
+        psName=name_table["psName"],
         fontInfo={
             "FullName": f"{fc.family_name} {style_name}",
             "isFixedPitch": True,
@@ -788,6 +788,8 @@ def _build_otf(
         xAvgCharWidth=fc.window_width,
         panose=_monospace_panose(),
     )
+    # Windows needs functional code pages declared to find the installed font.
+    fb.font["OS/2"].recalcCodePageRanges(fb.font)
     ital_angle = -fc.italic_angle if italic else 0
     fb.setupPost(isFixedPitch=1, italicAngle=ital_angle)
     timestamp = timestampNow()
@@ -879,6 +881,8 @@ def build_ttf(
         xAvgCharWidth=fc.window_width,
         panose=_monospace_panose(),
     )
+    # Windows needs functional code pages declared to find the installed font.
+    fb.font["OS/2"].recalcCodePageRanges(fb.font)
     ital_angle = -fc.italic_angle if italic else 0
     fb.setupPost(isFixedPitch=1, italicAngle=ital_angle)
     timestamp = timestampNow()

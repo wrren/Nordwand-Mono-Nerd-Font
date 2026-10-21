@@ -12,6 +12,9 @@ It also restores the fixed-pitch flags: patching with --single-width-glyphs
 zero-width combining marks to a single cell) leaves the font with mixed
 advance widths, so font-patcher clears isFixedPitch. Nordwand Mono sets it
 despite those few glyphs, and terminals rely on it to list the font.
+
+Code-page ranges are recalculated so Windows can find the installed font even
+if font-patcher preserves empty ranges from an older source font.
 """
 
 import argparse
@@ -46,6 +49,7 @@ def clean_font(path):
             record.string = cleaned
 
     font["post"].isFixedPitch = 1
+    font["OS/2"].recalcCodePageRanges(font)
 
     if "CFF " in font:
         cff = font["CFF "].cff
